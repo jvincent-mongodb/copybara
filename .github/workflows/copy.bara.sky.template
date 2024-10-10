@@ -2,28 +2,28 @@
 Copy definitions
 """
 
-source_url = "https://github.com/jvincent-mongodb/copybara.git"
-destination_url = "https://github.com/jvincent-mongodb/MEKO-test-env-deploy.git"
-author = "apix-bot[bot] <168195273+apix-bot[bot]@users.noreply.github.com>"
-
+releaseTag = "master"
+sourceUrl = "ssh://git@github.com/10gen/cloud-docs.git"
+destinationUrl = "ssh://git@github.com/mongodb/docs-atlas-architecture.git"
+ 
 core.workflow(
-    name = "cloud-docs",
+    name = "archcenter",
     origin = git.origin(
-        url = source_url,
+        url = sourceUrl,
+        ref = releaseTag,
     ),
     destination = git.github_pr_destination(
-        url = destination_url,
-        destination_ref = "master",
-        pr_branch = "apix_bot_copybara_pull_request_",
-        title = "Copies __________",
-        body = "Copies _________ from the source repo. See the attached Netlify comment for build log and staging.",
+        url = destinationUrl,
+        destination_ref = "main",
+        pr_branch = "copybara_pull_request",
+        title = "Copies cloud-docs content to the Atlas Arch Center",
+        body = "Copies cloud-docs content to the Atlas Arch Center. See the attached Netlify comment for build log and staging.",
         integrates = [],
     ),
-    origin_files = glob(["docs/command/**"], exclude = ["docs/command/atlas-completion**"]),
-    destination_files = glob(["source/includes/command/**"]),
-    authoring = authoring.pass_thru(author),
+    origin_files = glob(["source/includes/billing-optimizations.rst"]),
+    destination_files = glob(["source/includes/cloud-docs/**"]),
+    authoring = authoring.pass_thru("Copybara <copybara@example.com>"),
     transformations = [
-        core.move("docs/command", "source/includes/command"),
-        core.rename(".txt", ".rst", suffix = True)
+        core.move("source/includes", "source/includes/cloud-docs"),
     ],
 )
