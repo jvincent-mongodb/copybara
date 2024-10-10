@@ -1,29 +1,49 @@
-"""
-Copy definitions
-"""
-
-releaseTag = "master"
-sourceUrl = "ssh://git@github.com/10gen/cloud-docs.git"
-destinationUrl = "ssh://git@github.com/mongodb/docs-atlas-architecture.git"
+releaseTag = "atlascli/v1.25.0"
+sourceUrl = "ssh://git@github.com/mongodb/mongodb-atlas-cli.git"
+destinationUrl = "ssh://git@github.com/10gen/cloud-docs.git"
+destinationUrlCLIdocs = "ssh://git@github.com/mongodb/docs-atlas-cli.git"
  
 core.workflow(
-    name = "archcenter",
+    name = "atlas",
     origin = git.origin(
         url = sourceUrl,
         ref = releaseTag,
     ),
     destination = git.github_pr_destination(
         url = destinationUrl,
-        destination_ref = "main",
-        pr_branch = "copybara_pull_request",
-        title = "Copies cloud-docs content to the Atlas Arch Center",
-        body = "Copies cloud-docs content to the Atlas Arch Center. See the attached Netlify comment for build log and staging.",
+        destination_ref = "master",
+        pr_branch = "copybara_pull_request_"+releaseTag,
+        title = "Copies Atlas CLI commands for release tag: " + releaseTag,
+        body = "Copies Atlas CLI commands from the source repo. See the attached Netlify comment for build log and staging.",
         integrates = [],
     ),
-    origin_files = glob(["source/includes/billing-optimizations.rst"]),
-    destination_files = glob(["source/includes/cloud-docs/**"]),
+    origin_files = glob(["docs/command/**"], exclude = ["docs/command/atlas-completion**"]),
+    destination_files = glob(["source/includes/command/**"]),
     authoring = authoring.pass_thru("Copybara <copybara@example.com>"),
     transformations = [
-        core.move("source/includes", "source/includes/cloud-docs"),
+        core.move("docs/command", "source/includes/command"),
+        core.rename(".txt", ".rst", suffix = True)
+    ],
+)
+ 
+core.workflow(
+    name = "atlascli",
+    origin = git.origin(
+        url = sourceUrl,
+        ref = releaseTag,
+    ),
+    destination = git.github_pr_destination(
+        url = destinationUrlCLIdocs,
+        destination_ref = "master",
+        pr_branch = "copybara_pull_request_"+releaseTag,
+        title = "Copies Atlas CLI commands for release tag: " + releaseTag,
+        body = "Copies Atlas CLI commands from the source repo. See the attached Netlify comment for build log and staging.",
+        integrates = [],
+    ),
+    origin_files = glob(["docs/command/**"]),
+    destination_files = glob(["source/command/**"]),
+    authoring = authoring.pass_thru("Copybara <copybara@example.com>"),
+    transformations = [
+        core.move("docs/command", "source/command"),
     ],
 )
