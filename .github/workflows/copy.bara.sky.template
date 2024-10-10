@@ -10,7 +10,6 @@ core.workflow(
     name = "cloud-docs",
     origin = git.origin(
         url = source_url,
-        ref = release_tag,
     ),
     destination = git.github_pr_destination(
         url = destination_url,
