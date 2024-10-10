@@ -4,6 +4,7 @@ on: [push]
 
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  WORKFLOW: cloud-docs
 
 jobs:
   copybara:
