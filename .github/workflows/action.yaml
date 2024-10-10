@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: set env
-        run: echo "GH_TOKEN=$(echo ${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV && \
+        run: echo "GH_TOKEN=$(echo ${{ secrets.GH_TOKEN }} | sed 's/"/\\"/g'" >> $GITHUB_ENV && \
              echo "WORKFLOW=cloud-docs" >> $GITHUB_ENV
              
       - name: clone copybara
