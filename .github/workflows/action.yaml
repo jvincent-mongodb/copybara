@@ -8,7 +8,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: clone copybara
+        with:
+          GH_TOKEN: somerandomtoken #${{ secrets.GH_TOKEN }}
+          WORKFLOW: "cloud-docs"
         run: git clone --depth=1 https://github.com/google/copybara
       
       - name: build copybara
