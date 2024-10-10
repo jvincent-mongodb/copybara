@@ -1,4 +1,4 @@
-name: CI
+name: Copybara
 
 on: [push]
 
@@ -7,49 +7,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
-        - name: "build-copybara"
-        - run: /bin/bash
-          args:
-            - -c
-            - git
-            - clone
-            - --depth=1
-            - https://github.com/google/copybara
-            - ${workdir}/copybara
-        - run: /bin/bash
-          args:
-            - -c 
-            - docker
-            - build
-            - -t
-            - google/copybara
-            - ${workdir}/copybara
+      - uses: actions/checkout@v4
+      - name: clone copybara
+        run: git clone --depth=1 https://github.com/google/copybara
+      
+      - name: build copybara
+        run: cd copybara && docker build -t google/copybara .
 
-        - name: "run-copybara"
-        - run: /bin/bash
-          args:
-            - -c
-            - ./run-copybars.sh
-        - with:
-            TAG: ${tag}
-            GH_TOKEN: ${gh_token}
-            WORKFLOW: ${workflow}
-            EVERGREEN_USER: ${evergreen_user}
-            EVERGREEN_API_KEY: ${evergreen_api_key}
-            DOCS_SLACK_CHANNEL: ${docs_slack_channel}        
-          
-          # params:
-          #   <<: *go_options
-          #   env:
-          #     <<: *go_env
-          #     TAG: ${tag}
-          #     GH_TOKEN: ${gh_token}
-          #     WORKFLOW: ${workflow}
-          #     EVERGREEN_USER: ${evergreen_user}
-          #     EVERGREEN_API_KEY: ${evergreen_api_key}
-          #     DOCS_SLACK_CHANNEL: ${docs_slack_channel}
-          #   working_dir: src/github.com/mongodb/mongodb-atlas-cli/build/ci
-          #   shell: bash
-          #   script: |
-          #     ./run-copybara.sh
+      - name: run copybara
+        run: .github/workflows/run-copybara.sh
+        
