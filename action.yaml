@@ -15,5 +15,5 @@ jobs:
         run: cd copybara && docker build -t google/copybara .
 
       - name: run copybara
-        run: .github/workflows/run-copybara.sh
+        run: cd .github/workflows && ./run-copybara.sh
         
