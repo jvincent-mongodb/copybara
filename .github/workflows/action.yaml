@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: set env
-        run: /bin/bash -c echo "GH_TOKEN=${{ secrets.GH_TOKEN | sed s/\`//g }}" >> $GITHUB_ENV
+        run: /bin/bash -c echo "GH_TOKEN=${{ secrets.GH_TOKEN }} | sed s/\`//g " >> $GITHUB_ENV
              
       - name: clone copybara
         run: git clone --depth=1 https://github.com/google/copybara
