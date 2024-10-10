@@ -2,15 +2,15 @@ name: Copybara
 
 on: [push]
 
+env:
+  GH_TOKEN: ${{ GH_TOKEN }}
+
 jobs:
   copybara:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: set env
-        run: /bin/bash -c echo "export GH_TOKEN=${{ secrets.GH_TOKEN }}"
              
       - name: clone copybara
         run: git clone --depth=1 https://github.com/google/copybara
