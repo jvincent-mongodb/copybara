@@ -9,10 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: set env
+        run: echo "GH_TOKEN=$(echo ${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV && \
+             echo "WORKFLOW=cloud-docs" >> $GITHUB_ENV
+             
       - name: clone copybara
-        with:
-          GH_TOKEN: somerandomtoken #${{ secrets.GH_TOKEN }}
-          WORKFLOW: "cloud-docs"
         run: git clone --depth=1 https://github.com/google/copybara
       
       - name: build copybara
