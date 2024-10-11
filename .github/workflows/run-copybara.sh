@@ -51,6 +51,7 @@ docker run \
     -v "${PWD}/.git-credentials:/root/.git-credentials" \
     -e "COPYBARA_WORKFLOW=$WORKFLOW" \
     -e "COPYBARA_OPTIONS=--github-api-bearer-auth true" \
+    -e "COPYBARA_OPTIONS=--force"
     google/copybara
 
 PR_URL=$(docker logs copybara-container 2>&1 | grep "/pull/" | sed -E 's/^.*(https\:[^\ ]+).*$/\1/')
