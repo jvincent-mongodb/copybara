@@ -2,7 +2,7 @@
 Copy definitions
 """
 
-releaseTag = "master"
+releaseTag = "main"
 sourceUrl = "https://github.com/mongodb/docs-atlas-architecture.git"
 destinationUrl = "https://github.com/mongodb/docs-atlas-architecture.git"
  
