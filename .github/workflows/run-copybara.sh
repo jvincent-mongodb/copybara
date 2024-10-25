@@ -33,8 +33,8 @@ fi
 
 cat <<EOF > .gitconfig
 [user]
-    name = apix-bot[bot]
-    email = 168195273+apix-bot[bot]@users.noreply.github.com
+    name = mongodb-docs-copybara-bot[bot]
+    email = 168195273+mongodb-docs-copybara-bot[bot]@users.noreply.github.com
 [credential]
     helper = store
 EOF
@@ -54,7 +54,7 @@ docker run \
     -e "COPYBARA_OPTIONS=--force" \
     google/copybara
 
-PR_URL=$(docker logs copybara-container 2>&1 | grep "/pull/" | sed -E 's/^.*(https\:[^\ ]+).*$/\1/')
+# PR_URL=$(docker logs copybara-container 2>&1 | grep "/pull/" | sed -E 's/^.*(https\:[^\ ]+).*$/\1/')
 
 rm -rf .git-credentials .gitconfig copy.bara.sky
 docker rm -f copybara-container
